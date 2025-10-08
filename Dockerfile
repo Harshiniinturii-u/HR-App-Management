@@ -1,8 +1,12 @@
-FROM node:18
+
+FROM maven:3.9.4-eclipse-temurin-17 AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-ENV NODE_ENV=production
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=builder /app/target/hr-app.jar ./hr-app.jar
 EXPOSE 3000
-CMD ["node", "index.js"]
+ENV MONGO_URI=mongodb://mongodb:27017/hrapp
+CMD ["java", "-jar", "hr-app.jar"]
