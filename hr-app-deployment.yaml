@@ -1,4 +1,4 @@
-# apiVersion: apps/v1
+
 kind: Deployment
 metadata:
   name: hr-management-app
@@ -12,7 +12,7 @@ spec:
       labels:
         app: hr-management-app
       annotations:
-        ad.datadoghq.com/fitness-tracker-app.logs: '[{"source":"nodejs","service":"hr-management-app-service"},{"source":"nodejs","service":"hr-management-app"}]'
+        ad.datadoghq.com/hr-management-app.logs: '[{"source":"nodejs","service":"hr-management-app-service"},{"source":"nodejs","service":"hr-management-app"}]'
     spec:
       containers:
       - name: 
