@@ -1,0 +1,56 @@
+# apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hr-management-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hr-management-app
+  template:
+    metadata:
+      labels:
+        app: hr-management-app
+      annotations:
+        ad.datadoghq.com/fitness-tracker-app.logs: '[{"source":"nodejs","service":"hr-management-app-service"},{"source":"nodejs","service":"hr-management-app"}]'
+    spec:
+      containers:
+      - name: 
+        image: harshini100/cap-hr-app:v1.3.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://mongodb-service:27017/hr-app"
+        - name: PORT
+          value: "3000"
+        - name: HOST
+          value: "0.0.0.0"
+        - name: NODE_ENV
+          value: "production"
+
+        # Datadog APM (tracing) env variables
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: DD_TRACE_AGENT_PORT
+          value: "8126"
+        - name: DD_ENV
+          value: "production"
+        - name: DD_SERVICE
+          value: "hr-management-app"
+        - name: DD_VERSION
+          value: "1.0.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hr-app-service
+spec:
+  selector:
+    app: hr-management-app
+  ports:
+  - port: 3001
+    targetPort: 3000
+  type: LoadBalancer
