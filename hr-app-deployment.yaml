@@ -23,7 +23,7 @@ spec:
         - name: MONGODB_URI
           value: "production"
         - name: PORT
-          value: "3000"
+          value: "5000"
         - name: HOST
           value: "0.0.0.0"
         - name: NODE_ENV
