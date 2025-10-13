@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+# apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hr-management-app
@@ -21,7 +21,7 @@ spec:
         - containerPort: 3000
         env:
         - name: MONGODB_URI
-          value: "mongodb://mongodb-service:27017/hr-management-app"
+          value: "mongodb://rootuser:rootpassword@localhost:27017/hr_system?authSource=rootuser"
         - name: PORT
           value: "3000"
         - name: HOST
