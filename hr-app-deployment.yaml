@@ -15,7 +15,7 @@ spec:
         ad.datadoghq.com/hr-management-app.logs: '[{"source":"nodejs","service":"hr-management-app-service"},{"source":"nodejs","service":"hr-management-app"}]'
     spec:
       containers:
-      - name: 
+      - name: hr-management-app
         image: harshini100/cap-hr-app:v1.3.0
         ports:
         - containerPort: 3000
